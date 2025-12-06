@@ -55,16 +55,16 @@ def generate_content(topic: str):
         ).choices[0].message.content.strip()
 
         # Генерация мета-описания для статьи
-        meta_description = openai.ChatCompletion.create(
-            model="gpt-4.1-mini",
-            messages=[{
-                "role": "user", 
-                "content": f"Напишите мета-описание для статьи с заголовком: '{title}'. Оно должно быть органичным, информативным и содержать основные ключевые слова."
-            }],
-            max_tokens=120,  # Увеличиваем лимит токенов для полного ответа
-            temperature=0.6,
-            stop=["."]
-        ).choices[0].message.content.strip()
+        # meta_description = openai.ChatCompletion.create(
+        #     model="gpt-4.1-mini",
+        #     messages=[{
+        #        "role": "user", 
+        #        "content": f"Напишите мета-описание для статьи с заголовком: '{title}'. Оно должно быть органичным, информативным и содержать основные ключевые слова."
+        #    }],
+        #    max_tokens=120,  # Увеличиваем лимит токенов для полного ответа
+        #    temperature=0.6,
+        #    stop=["."]
+        #).choices[0].message.content.strip()
 
         # Генерация полного контента статьи
         post_content = openai.ChatCompletion.create(
@@ -74,7 +74,7 @@ def generate_content(topic: str):
                 "content": f"""Напишите статью на тему '{topic}', используя последние новости:\n{recent_news}. 
                 Статья должна быть:
                 1. Информативной и логичной
-                2. Содержать не менее 1500 символов
+                2. Содержать не менее 800 символов
                 3. Иметь четкую структуру с подзаголовками
                 4. Включать анализ текущих трендов
                 5. Иметь вступление, основную часть и заключение
@@ -82,7 +82,7 @@ def generate_content(topic: str):
                 7. Каждый абзац должен быть не менее 3-4 предложений
                 8. Текст должен быть легким для восприятия и содержательным"""
             }],
-            max_tokens=1500,  # Лимит токенов для развернутого текста
+            max_tokens=1000,  # Лимит токенов для развернутого текста
             temperature=0.5,
             presence_penalty=0.6,  # Штраф за повторение фраз
             frequency_penalty=0.6
@@ -91,7 +91,7 @@ def generate_content(topic: str):
         # Возвращаем сгенерированный контент
         return {
             "title": title,
-            "meta_description": meta_description,
+            #"meta_description": meta_description,
             "post_content": post_content
         }
     
